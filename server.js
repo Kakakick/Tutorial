@@ -7,18 +7,14 @@ const { default: mongoose } = require('mongoose');
 
 mongoose.connect('mongodb://127.0.0.1:27017/bookstore');
 
-app.use('/listAccount', (req, res) => {
-    Account.find()
-        .then(result => {
-            res.json(result.map(acc => acc.username + acc.password));
-        })
-})
-
-
 
 // get body-parser 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+
+const accountRouter = require('./routers/accountRouter')
+
+app.use('/api/account/', accountRouter);
 
 app.post('/login', async (req, res) => {
     let username = req.body.username;
